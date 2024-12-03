@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Sudoku Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: white;
+            text-align: center;
+        }
+        h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    color: white;
+    background: linear-gradient(135deg, #ff7eb3, #ff758c);
+    padding: 10px 20px;
+    border-radius: 10px;
+    display: inline-block;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border: 2px solid white;
+    animation: slideIn 1s ease-out, colorPulse 3s infinite;
+}
+
+/* Slide-in animation */
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Color-pulse animation */
+@keyframes colorPulse {
+    0%, 100% {
+        background: linear-gradient(135deg, #ff7eb3, #ff758c);
+    }
+    50% {
+        background: linear-gradient(135deg, #ff758c, #ffae7e);
+    }
+}
+
+        #Dabba {
+            display: grid;
+            grid-template-columns: repeat(9, 1fr);
+            grid-template-rows: repeat(9, 1fr);
+            gap: 2px;
+            width: 90vw;
+            border-radius: 5px;
+            padding-right: 5px;
+            max-width: 500px;
+            height: 90vw;
+            max-height: 500px;
+            border: 4px solid white;
+            background-color: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .cell {
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border: none;
+            background-color: #f9f9f9;
+            color: #333;
+            outline: none;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .cell:disabled {
+            background-color: #ddd;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .cell:focus {
+            border: 2px solid #2575fc;
+        }
+
+        .buttons {
+            margin-top: 20px;
+        }
+
+        .button {
+            padding: 12px 25px;
+            margin: 10px;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #2575fc, #6a11cb);
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .button:hover {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+            transform: scale(1.05);
+        }
+
+        .button:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            #Dabba {
+                width: 80vw;
+                height: 80vw;
+            }
+
+            .button {
+                font-size: 0.9rem;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>The Sudoku Game</h1>
+    <div class="dabba" id="Dabba"></div>
+    <div class="buttons">
+        <button class="button" id="restart" onclick="refresh()">New Game</button>
+    </div>
+    <script>
+        // khali board banane ke liye
+        let board = Array.from({ length: 9 }, () => Array(9).fill(0));
+        const dabba = document.getElementById("Dabba");
+
+        // for creating boxes
+        function createBoxes() {
+            for (let row = 0; row < 9; row++) {
+                for (let col = 0; col < 9; col++) {
+                    const box = document.createElement("input");
+                    box.type = "number";
+                    box.min = "1";
+                    box.max = "9";
+                    box.classList.add("cell");
+
+                    // jab click ho tab...
+                    box.addEventListener("input", () => {
+                        const num = parseInt(box.value);
+                        if (box.value === "") {
+                            box.style.backgroundColor = "";
+                        } else if (!isNaN(num) && isRight(board, row, col, num)) {
+                            board[row][col] = num;
+                            box.style.backgroundColor = "lightgreen";
+                        } else {
+                            box.style.backgroundColor = "lightcoral";
+                        }
+                    });
+                    // dabbe me add ---
+                    dabba.appendChild(box);
+                }
+            }
+        }
+
+        function ADDRandomNumber() {
+            clearBoard();
+            RandomNumber(board);
+            updatedDisplay();
+        }
+
+        // board me jitne numbers honge pehle clear krke dobara khali board Array banega:
+        function clearBoard() {
+            board = Array.from({ length: 9 }, () => Array(9).fill(0));
+            updatedDisplay();
+        }
+
+        // random numbers
+        function RandomNumber(board) {
+            for (let i = 0; i < 40; i++) {
+                let r = Math.floor(Math.random() * 9);
+                let c = Math.floor(Math.random() * 9);
+                let n = Math.floor(Math.random() * 9) + 1;
+                if (isRight(board, r, c, n)) {
+                    board[r][c] = n;
+                }
+            }
+        }
+
+        // unko display krne ke liye(pehle check karega phir add karega khud se):
+        function updatedDisplay() {
+            const cells = document.querySelectorAll(".cell");
+            cells.forEach((cell, index) => {
+                const row = Math.floor(index / 9);
+                const col = index % 9;
+                if (board[row][col] !== 0) {
+                    cell.value = board[row][col];
+                    cell.disabled = true;
+                } else {
+                    cell.value = "";
+                    cell.disabled = false;
+                    cell.style.backgroundColor = "white";
+                }
+            });
+        }
+
+        // for isRight()
+        function isRight(board, row, col, num) {
+            for (let i = 0; i < 9; i++) {
+                if (board[row][i] === num) return false;
+            }
+            for (let j = 0; j < 9; j++) {
+                if (board[j][col] === num) return false;
+            }
+            let rowStart = Math.floor(row / 3) * 3;
+            let colStart = Math.floor(col / 3) * 3;
+            for (let i = rowStart; i < rowStart + 3; i++) {
+                for (let j = colStart; j < colStart + 3; j++) {
+                    if (board[i][j] === num) return false;
+                }
+            }
+            return true;
+        }
+        // for restarting the game----------------
+
+        function refresh() {
+            location.reload();
+        }
+
+        createBoxes();
+        ADDRandomNumber();
+
+
+        // for winning the game...............
+        function checkWin() {
+        const cells = document.querySelectorAll(".cell");
+        let allFilled = true;
+
+        cells.forEach(cell => {
+            if (!cell.value || cell.style.backgroundColor === "lightcoral") {
+                allFilled = false; 
+            }
+        });
+
+        if (allFilled) {
+            document.body.style.background = "linear-gradient(90deg, #00c6ff, #0072ff)";
+            document.body.style.color = "white";
+            document.body.style.transition = "background 1s ease";
+
+            // Show alert message
+            setTimeout(() => {
+                alert("Congratulations! You've won the Sudoku game! 🎉");
+                location.reload(); 
+            }, 500);
+        }
+    }
+    dabba.addEventListener("input", checkWin);
+    </script>
+</body>
+
+</html>
