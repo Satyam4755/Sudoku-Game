@@ -18,63 +18,62 @@
             color: white;
             text-align: center;
         }
+
         h1 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    color: white;
-    background: linear-gradient(135deg, #ff7eb3, #ff758c);
-    padding: 10px 20px;
-    border-radius: 10px;
-    display: inline-block;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    border: 2px solid white;
-    animation: slideIn 1s ease-out, colorPulse 3s infinite;
-}
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            color: white;
+            background: linear-gradient(135deg, #ff7eb3, #ff758c);
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border: 2px solid white;
+            animation: slideIn 1s ease-out, colorPulse 3s infinite;
+        }
 
-/* Slide-in animation */
-@keyframes slideIn {
-    from {
-        transform: translateY(-50px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
 
-/* Color-pulse animation */
-@keyframes colorPulse {
-    0%, 100% {
-        background: linear-gradient(135deg, #ff7eb3, #ff758c);
-    }
-    50% {
-        background: linear-gradient(135deg, #ff758c, #ffae7e);
-    }
-}
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes colorPulse {
+            0%,
+            100% {
+                background: linear-gradient(135deg, #ff7eb3, #ff758c);
+            }
+
+            50% {
+                background: linear-gradient(135deg, #ff758c, #ffae7e);
+            }
+        }
 
         #Dabba {
             display: grid;
             grid-template-columns: repeat(9, 1fr);
             grid-template-rows: repeat(9, 1fr);
             gap: 2px;
-            width: 90vw;
-            border-radius: 5px;
-            padding-right: 5px;
-            max-width: 500px;
-            height: 90vw;
-            max-height: 500px;
+            width: 80vmin;
+            height: 80vmin;
             border: 4px solid white;
             background-color: #fff;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
         }
 
         .cell {
             width: 100%;
             height: 100%;
             text-align: center;
-            font-size: 1.5rem;
+            font-size: calc(1.5vmin + 0.5rem);
             font-weight: bold;
             border: none;
             background-color: #f9f9f9;
@@ -124,17 +123,12 @@
 
         @media (max-width: 600px) {
             h1 {
-                font-size: 2rem;
-            }
-
-            #Dabba {
-                width: 80vw;
-                height: 80vw;
+                font-size: 1.8rem;
             }
 
             .button {
                 font-size: 0.9rem;
-                padding: 10px 20px;
+                padding: 8px 18px;
             }
         }
     </style>
