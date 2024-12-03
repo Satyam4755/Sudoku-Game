@@ -17,10 +17,11 @@
             background: linear-gradient(135deg, #6a11cb, #2575fc);
             color: white;
             text-align: center;
+            padding: 10px;
         }
 
         h1 {
-            font-size: 2.5rem;
+            font-size: 5vmin;
             margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             color: white;
@@ -61,8 +62,8 @@
             grid-template-columns: repeat(9, 1fr);
             grid-template-rows: repeat(9, 1fr);
             gap: 2px;
-            width: 80vmin;
-            height: 80vmin;
+            width: 90vmin; /* Dynamically adjust grid size */
+            height: 90vmin; /* Match width for a square */
             border: 4px solid white;
             background-color: #fff;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
@@ -73,7 +74,7 @@
             width: 100%;
             height: 100%;
             text-align: center;
-            font-size: calc(1.5vmin + 0.5rem);
+            font-size: calc(2vmin + 0.5rem); /* Responsive font size */
             font-weight: bold;
             border: none;
             background-color: #f9f9f9;
@@ -94,12 +95,14 @@
 
         .buttons {
             margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
         }
 
         .button {
-            padding: 12px 25px;
-            margin: 10px;
-            font-size: 1rem;
+            padding: 10px 20px;
+            font-size: 3vmin; /* Dynamically scale button size */
             border: none;
             cursor: pointer;
             border-radius: 8px;
@@ -122,13 +125,26 @@
         }
 
         @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
             h1 {
-                font-size: 1.8rem;
+                font-size: 4vmin;
             }
 
             .button {
-                font-size: 0.9rem;
-                padding: 8px 18px;
+                font-size: 4vmin;
+                padding: 8px 16px;
+            }
+
+            #Dabba {
+                width: 85vmin;
+                height: 85vmin;
+            }
+
+            .cell {
+                font-size: calc(1.5vmin + 0.3rem);
             }
         }
     </style>
